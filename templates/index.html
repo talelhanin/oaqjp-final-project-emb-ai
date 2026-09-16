@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emotion Detection Course Project</title>
+    <style>
+      body { max-width: 720px; margin: 4rem auto; padding: 0 1.25rem; font: 16px/1.6 system-ui, sans-serif; color: #172033; }
+      textarea, button { width: 100%; box-sizing: border-box; padding: .8rem; margin-top: .75rem; }
+      textarea { min-height: 130px; }
+      button { color: white; background: #2855a6; border: 0; border-radius: 6px; cursor: pointer; }
+      pre { min-height: 80px; padding: 1rem; background: #f3f5f8; border-radius: 6px; white-space: pre-wrap; }
+      aside { padding: .8rem 1rem; background: #fff8dc; border-left: 4px solid #d29b00; }
+    </style>
+  </head>
+  <body>
+    <h1>Emotion Detection</h1>
+    <aside>Educational project. Set <code>EMOTION_BACKEND=heuristic</code> for the clearly labeled offline demo; it is not a trained model.</aside>
+    <label for="text">Text to analyze</label>
+    <textarea id="text"></textarea>
+    <button id="analyze" type="button">Analyze</button>
+    <pre id="result" aria-live="polite">Enter text to begin.</pre>
+    <script>
+      document.querySelector("#analyze").addEventListener("click", async () => {
+        const text = document.querySelector("#text").value;
+        const response = await fetch(`/emotionDetector?textToAnalyze=${encodeURIComponent(text)}`);
+        const payload = await response.json();
+        document.querySelector("#result").textContent = JSON.stringify(payload, null, 2);
+      });
+    </script>
+  </body>
+</html>
